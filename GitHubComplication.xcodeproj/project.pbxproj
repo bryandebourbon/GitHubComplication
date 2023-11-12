@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		2ECD6A882B006C0000BE5E69 /* GitHubComplicationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD6A872B006C0000BE5E69 /* GitHubComplicationApp.swift */; };
-		2ECD6A8A2B006C0000BE5E69 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD6A892B006C0000BE5E69 /* ContentView.swift */; };
+		2ECD6A8A2B006C0000BE5E69 /* ContributionGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD6A892B006C0000BE5E69 /* ContributionGraphView.swift */; };
 		2ECD6A8C2B006C0200BE5E69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2ECD6A8B2B006C0200BE5E69 /* Assets.xcassets */; };
 		2ECD6A902B006C0200BE5E69 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2ECD6A8F2B006C0200BE5E69 /* Preview Assets.xcassets */; };
 		2ECD6A9A2B006C0200BE5E69 /* GitHubComplicationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD6A992B006C0200BE5E69 /* GitHubComplicationTests.swift */; };
 		2ECD6AA42B006C0200BE5E69 /* GitHubComplicationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD6AA32B006C0200BE5E69 /* GitHubComplicationUITests.swift */; };
 		2ECD6AA62B006C0200BE5E69 /* GitHubComplicationUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD6AA52B006C0200BE5E69 /* GitHubComplicationUITestsLaunchTests.swift */; };
+		2ECD6AB32B007C2B00BE5E69 /* GitHubQueryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD6AB22B007C2B00BE5E69 /* GitHubQueryResponse.swift */; };
+		2ECD6AB52B007C3F00BE5E69 /* GitHubDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD6AB42B007C3F00BE5E69 /* GitHubDataFetcher.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +38,7 @@
 /* Begin PBXFileReference section */
 		2ECD6A842B006C0000BE5E69 /* GitHubComplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHubComplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2ECD6A872B006C0000BE5E69 /* GitHubComplicationApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubComplicationApp.swift; sourceTree = "<group>"; };
-		2ECD6A892B006C0000BE5E69 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		2ECD6A892B006C0000BE5E69 /* ContributionGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionGraphView.swift; sourceTree = "<group>"; };
 		2ECD6A8B2B006C0200BE5E69 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2ECD6A8D2B006C0200BE5E69 /* GitHubComplication.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GitHubComplication.entitlements; sourceTree = "<group>"; };
 		2ECD6A8F2B006C0200BE5E69 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -45,6 +47,8 @@
 		2ECD6A9F2B006C0200BE5E69 /* GitHubComplicationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GitHubComplicationUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2ECD6AA32B006C0200BE5E69 /* GitHubComplicationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubComplicationUITests.swift; sourceTree = "<group>"; };
 		2ECD6AA52B006C0200BE5E69 /* GitHubComplicationUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubComplicationUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		2ECD6AB22B007C2B00BE5E69 /* GitHubQueryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubQueryResponse.swift; sourceTree = "<group>"; };
+		2ECD6AB42B007C3F00BE5E69 /* GitHubDataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubDataFetcher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +100,9 @@
 			isa = PBXGroup;
 			children = (
 				2ECD6A872B006C0000BE5E69 /* GitHubComplicationApp.swift */,
-				2ECD6A892B006C0000BE5E69 /* ContentView.swift */,
+				2ECD6A892B006C0000BE5E69 /* ContributionGraphView.swift */,
+				2ECD6AB22B007C2B00BE5E69 /* GitHubQueryResponse.swift */,
+				2ECD6AB42B007C3F00BE5E69 /* GitHubDataFetcher.swift */,
 				2ECD6A8B2B006C0200BE5E69 /* Assets.xcassets */,
 				2ECD6A8D2B006C0200BE5E69 /* GitHubComplication.entitlements */,
 				2ECD6A8E2B006C0200BE5E69 /* Preview Content */,
@@ -259,7 +265,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2ECD6A8A2B006C0000BE5E69 /* ContentView.swift in Sources */,
+				2ECD6AB52B007C3F00BE5E69 /* GitHubDataFetcher.swift in Sources */,
+				2ECD6A8A2B006C0000BE5E69 /* ContributionGraphView.swift in Sources */,
+				2ECD6AB32B007C2B00BE5E69 /* GitHubQueryResponse.swift in Sources */,
 				2ECD6A882B006C0000BE5E69 /* GitHubComplicationApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
