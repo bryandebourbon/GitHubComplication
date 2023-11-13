@@ -1,8 +1,13 @@
 import SwiftUI
 
 struct ContributionGraphView: View {
-  let contributions: [ContributionDay]
-
+  private let blockSize: CGFloat = 8
+    // Adjust this value as needed for the size of the blocks
+  private let padding: CGFloat = 2 // Padding around each block
+  private let numberOfRows: Int = 7 // One for each day of the week
+  private let maxWidth: CGFloat = 200
+    // The approximate width available for a modular large complication
+  
   private func colorForContributionCount(_ count: Int) -> Color {
     switch count {
     case 0: return Color.gray.opacity(0.1)
@@ -11,44 +16,50 @@ struct ContributionGraphView: View {
     default: return Color.green
     }
   }
+  
+  // Calculate the number of columns that can fit within maxWidth
+  private var numberOfColumns: Int {
+    let totalPadding = padding * (CGFloat(numberOfRows) + 1)
+    let availableWidth = maxWidth - totalPadding
+    let maxColumns = Int(availableWidth / (blockSize + padding))
+    return maxColumns
+  }
+  
+  // Generate sample data based on the number of columns and rows
+  var contributions: [ContributionDay] {
+    (0..<(numberOfRows * numberOfColumns)).map { index in
+      ContributionDay(date: "2023-11-\(String(format: "%02d", index + 1))",
+                      contributionCount: Int.random(in: 0...6))
+    }
+  }
 
   var body: some View {
-    // Assuming a max of 7 days in a week for simplicity
-    VStack(alignment: .leading) {
-      ForEach(0..<contributions.count / 7, id: \.self) { weekIndex in
-        HStack {
-          ForEach(0..<7, id: \.self) { dayIndex in
+    VStack(alignment: .leading, spacing: padding) {
+      ForEach(0..<numberOfRows, id: \.self) { rowIndex in
+        HStack(spacing: padding) {
+          ForEach(0..<numberOfColumns, id: \.self) { columnIndex in
+            let index = rowIndex + columnIndex * numberOfRows
             Rectangle()
-              .fill(
-                self.colorForContributionCount(
-                  self.contributions[weekIndex * 7 + dayIndex].contributionCount)
-              )
-              .frame(width: 20, height: 20)
+              .fill(colorForContributionCount(contributions[index].contributionCount))
+              .frame(width: blockSize, height: blockSize)
+              .cornerRadius(2)
           }
         }
       }
     }
+    .padding(.all, padding)
+    // The frame size dynamically adjusts to the number of columns
+    .frame(width: CGFloat(numberOfColumns) * (blockSize + padding) + padding,
+           height: CGFloat(numberOfRows) * (blockSize + padding) + padding)
   }
 }
 
 #if DEBUG
-  struct ContributionGraphView_Previews: PreviewProvider {
-    static var previews: some View {
-      // Create sample data for the preview
-      let sampleContributions = [
-        ContributionDay(date: "2023-11-01", contributionCount: 3),
-        ContributionDay(date: "2023-11-02", contributionCount: 2),
-        ContributionDay(date: "2023-11-03", contributionCount: 1),
-        ContributionDay(date: "2023-11-04", contributionCount: 0),
-        ContributionDay(date: "2023-11-05", contributionCount: 4),
-        ContributionDay(date: "2023-11-06", contributionCount: 2),
-        ContributionDay(date: "2023-11-07", contributionCount: 0),
-        // ... Add as many days as needed for the preview
-      ]
-
-      ContributionGraphView(contributions: sampleContributions)
-        .previewLayout(.sizeThatFits)
-        .padding()
-    }
+struct ContributionGraphView_Previews: PreviewProvider {
+  static var previews: some View {
+    ContributionGraphView()
+      .previewLayout(.fixed(width: 155, height: 110)) // Adjust the preview layout to simulate the modular large size
   }
+}
 #endif
+
