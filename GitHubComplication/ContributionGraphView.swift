@@ -116,7 +116,7 @@ struct ContributionGraphView: View {
 func refreshWidgetData() {
     let fetcher = GitHubDataFetcher()
     fetcher.fetchGitHubData(
-      from: Calendar.current.date(byAdding: .month, value: -4, to: Date()) ?? Date(), to: Date(), accessToken: "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"
+      from: Calendar.current.date(byAdding: .month, value: -4, to: Date()) ?? Date(), to: Date(), accessToken: "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"
     ) { result in
       switch result {
       case .success(let response):
