@@ -6,12 +6,18 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 @main
 struct GitHubComplicationApp: App {
-    var body: some Scene {
-        WindowGroup {
-//            ContentView()
+  var body: some Scene {
+    WindowGroup {
+      VStack {
+        ContributionGraphView()
+        Button("Refresh Widget") {
+          refreshWidgetData()
         }
+      }
     }
+  }
 }

@@ -9,7 +9,7 @@ class GitHubDataFetcherTests: XCTestCase {
     override func setUp() {
         super.setUp()
         dataFetcher = GitHubDataFetcher()
-        validToken = "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" // Replace with a valid token for testing
+        validToken = "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" // Replace with a valid token for testing
     }
 
     override func tearDown() {

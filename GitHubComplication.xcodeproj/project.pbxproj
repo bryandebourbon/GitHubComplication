@@ -25,7 +25,6 @@
 		2ECD6AB32B007C2B00BE5E69 /* GitHubQueryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD6AB22B007C2B00BE5E69 /* GitHubQueryResponse.swift */; };
 		2ECD6AB52B007C3F00BE5E69 /* GitHubDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD6AB42B007C3F00BE5E69 /* GitHubDataFetcher.swift */; };
 		2ECD6AC02B0161C500BE5E69 /* GitHubCompilation_WatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD6ABF2B0161C500BE5E69 /* GitHubCompilation_WatchApp.swift */; };
-		2ECD6AC22B0161C500BE5E69 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD6AC12B0161C500BE5E69 /* ContentView.swift */; };
 		2ECD6AC42B0161C700BE5E69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2ECD6AC32B0161C700BE5E69 /* Assets.xcassets */; };
 		2ECD6AC72B0161C700BE5E69 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2ECD6AC62B0161C700BE5E69 /* Preview Assets.xcassets */; };
 		2ECD6AD12B0161C700BE5E69 /* GitHubCompilation_Watch_Watch_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD6AD02B0161C700BE5E69 /* GitHubCompilation_Watch_Watch_AppTests.swift */; };
@@ -131,7 +130,6 @@
 		2ECD6AB42B007C3F00BE5E69 /* GitHubDataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubDataFetcher.swift; sourceTree = "<group>"; };
 		2ECD6ABD2B0161C500BE5E69 /* GitHubCompilation.Watch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GitHubCompilation.Watch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2ECD6ABF2B0161C500BE5E69 /* GitHubCompilation_WatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubCompilation_WatchApp.swift; sourceTree = "<group>"; };
-		2ECD6AC12B0161C500BE5E69 /* ContentView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		2ECD6AC32B0161C700BE5E69 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2ECD6AC62B0161C700BE5E69 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2ECD6ACC2B0161C700BE5E69 /* GitHubCompilation.Watch Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GitHubCompilation.Watch Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,6 +137,8 @@
 		2ECD6AD62B0161C700BE5E69 /* GitHubCompilation.Watch Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GitHubCompilation.Watch Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2ECD6ADA2B0161C700BE5E69 /* GitHubCompilation_Watch_Watch_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubCompilation_Watch_Watch_AppUITests.swift; sourceTree = "<group>"; };
 		2ECD6ADC2B0161C700BE5E69 /* GitHubCompilation_Watch_Watch_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubCompilation_Watch_Watch_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		2EDB94D62B02F50C0042D4A6 /* GitHubCompilation.Watch Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "GitHubCompilation.Watch Watch App.entitlements"; sourceTree = "<group>"; };
+		2EDB94D72B02F5140042D4A6 /* contributionsWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = contributionsWidgetExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +219,7 @@
 		2ECD6A7B2B006C0000BE5E69 = {
 			isa = PBXGroup;
 			children = (
+				2EDB94D72B02F5140042D4A6 /* contributionsWidgetExtension.entitlements */,
 				2ECD6A862B006C0000BE5E69 /* GitHubComplication */,
 				2ECD6A982B006C0200BE5E69 /* GitHubComplicationTests */,
 				2ECD6AA22B006C0200BE5E69 /* GitHubComplicationUITests */,
@@ -287,8 +288,8 @@
 		2ECD6ABE2B0161C500BE5E69 /* GitHubCompilation.Watch Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				2EDB94D62B02F50C0042D4A6 /* GitHubCompilation.Watch Watch App.entitlements */,
 				2ECD6ABF2B0161C500BE5E69 /* GitHubCompilation_WatchApp.swift */,
-				2ECD6AC12B0161C500BE5E69 /* ContentView.swift */,
 				2ECD6AC32B0161C700BE5E69 /* Assets.xcassets */,
 				2ECD6AC52B0161C700BE5E69 /* Preview Content */,
 			);
@@ -614,7 +615,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2EDB94D52B02DFD30042D4A6 /* GitHubDataFetcher.swift in Sources */,
-				2ECD6AC22B0161C500BE5E69 /* ContentView.swift in Sources */,
 				2EDB94D42B02DFD00042D4A6 /* GitHubQueryResponse.swift in Sources */,
 				2ECD6AC02B0161C500BE5E69 /* GitHubCompilation_WatchApp.swift in Sources */,
 				2EDB94D32B02DFC80042D4A6 /* ContributionGraphView.swift in Sources */,
@@ -679,6 +679,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = contributionsWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = VZPMV36P9L;
@@ -709,6 +710,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = contributionsWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = VZPMV36P9L;
@@ -1023,6 +1025,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "GitHubCompilation.Watch Watch App/GitHubCompilation.Watch Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GitHubCompilation.Watch Watch App/Preview Content\"";
@@ -1054,6 +1057,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "GitHubCompilation.Watch Watch App/GitHubCompilation.Watch Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GitHubCompilation.Watch Watch App/Preview Content\"";

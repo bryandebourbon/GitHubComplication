@@ -8,9 +8,15 @@ class GitHubDataFetcher {
   }
 
   func fetchGitHubData(
-    from: String, to: String, accessToken: String,
+    from: Date, to: Date, accessToken: String,
     completion: @escaping (Result<GitHubQueryResponse, Error>) -> Void
   ) {
+    let formatter = ISO8601DateFormatter()
+    formatter.formatOptions = [.withInternetDateTime]
+
+    let fromDate = formatter.string(from: from)
+    let toDate = formatter.string(from: to)
+
     let url = URL(string: "https://api.github.com/graphql")!
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
@@ -19,7 +25,7 @@ class GitHubDataFetcher {
     let query = """
       query UserContributions {
           viewer {
-              contributionsCollection(from: "\(from)", to: "\(to)") {
+              contributionsCollection(from: "\(fromDate)", to: "\(toDate)") {
                   contributionCalendar {
                       totalContributions
                       weeks {

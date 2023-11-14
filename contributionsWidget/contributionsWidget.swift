@@ -10,11 +10,11 @@ import WidgetKit
 
 struct Provider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent(), contributions: sampleContributions())
+        SimpleEntry(date: Date(), contributions: sampleContributions())
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: configuration, contributions: sampleContributions())
+        SimpleEntry(date: Date(),  contributions: sampleContributions())
     }
 
 
@@ -25,19 +25,19 @@ struct Provider: AppIntentTimelineProvider {
     var entries: [SimpleEntry] = []
 
     // Fetch updated data from shared UserDefaults
-    if let sharedDefaults = UserDefaults(suiteName: "group.com.bryandebourbon"),
+    if let sharedDefaults = UserDefaults(suiteName: "group.com.bryandebourbon.contributions"),
       let encodedData = sharedDefaults.data(forKey: "githubContributions"),
       let contributionDays = try? JSONDecoder().decode([ContributionDay].self, from: encodedData)
     {
 
       // Create a single entry with the latest data
       let entry = SimpleEntry(
-        date: Date(), configuration: configuration, contributions: contributionDays)
+        date: Date(),  contributions: contributionDays)
       entries.append(entry)
     } else {
       // Handle the case where there is no data or an error in fetching data
       // This can be an empty view or some placeholder
-      let entry = SimpleEntry(date: Date(), configuration: configuration, contributions: [])
+      let entry = SimpleEntry(date: Date(),  contributions: [])
       entries.append(entry)
     }
 
@@ -64,7 +64,6 @@ private func sampleContributions() -> [ContributionDay] {
 
 struct SimpleEntry: TimelineEntry {
   let date: Date
-  let configuration: ConfigurationAppIntent
   let contributions: [ContributionDay]
 }
 
@@ -74,7 +73,7 @@ struct contributionsWidgetEntryView: View {
 
   var body: some View {
     VStack {
-      ContributionGraphView(contributions: entry.contributions)
+      ContributionGraphView()
     }
   }
 }
@@ -92,23 +91,11 @@ struct contributionsWidget: Widget {
   }
 }
 
-extension ConfigurationAppIntent {
-  fileprivate static var smiley: ConfigurationAppIntent {
-    let intent = ConfigurationAppIntent()
-    intent.favoriteEmoji = "😀"
-    return intent
-  }
 
-  fileprivate static var starEyes: ConfigurationAppIntent {
-    let intent = ConfigurationAppIntent()
-    intent.favoriteEmoji = "🤩"
-    return intent
-  }
-}
 
 #Preview(as: .accessoryRectangular){
   contributionsWidget()
 } timeline: {
-  SimpleEntry(date: .now, configuration: .smiley, contributions: sampleContributions())
-  SimpleEntry(date: .now, configuration: .starEyes, contributions: sampleContributions())
+  SimpleEntry(date: .now,  contributions: sampleContributions())
+  SimpleEntry(date: .now,  contributions: sampleContributions())
 }

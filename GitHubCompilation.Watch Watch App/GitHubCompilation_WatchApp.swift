@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 @main
 struct GitHubCompilation_Watch_Watch_AppApp: App {
@@ -14,4 +15,19 @@ struct GitHubCompilation_Watch_Watch_AppApp: App {
             ContentView()
         }
     }
+}
+
+struct ContentView: View {
+  var body: some View {
+    VStack {
+      ContributionGraphView()
+      Button("Refresh Widget") {
+        refreshWidgetData()
+      }
+    }
+  }
+}
+
+#Preview{
+  ContentView()
 }

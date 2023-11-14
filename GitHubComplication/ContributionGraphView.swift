@@ -1,7 +1,19 @@
 import SwiftUI
+import WidgetKit
 
 struct ContributionGraphView: View {
-  var contributions: [ContributionDay]
+  private var contributions: [ContributionDay] {
+    guard let sharedDefaults = UserDefaults(suiteName: "group.com.bryandebourbon.contributions"),
+          
+      let encodedData = sharedDefaults.data(forKey: "githubContributions"),
+          
+      let contributionDays = try? JSONDecoder().decode([ContributionDay].self, from: encodedData)
+            
+    else {
+      return []
+    }
+    return contributionDays
+  }
   private let blockSize: CGFloat = 8
   private let padding: CGFloat = 2
   private let numberOfRows: Int = 7
@@ -9,9 +21,9 @@ struct ContributionGraphView: View {
 
   private func colorForContributionCount(_ count: Int) -> Color {
     switch count {
-    case 0: return Color.gray.opacity(0.1)
-    case 1...3: return Color.green.opacity(0.3)
-    case 4...6: return Color.green.opacity(0.6)
+    case 0: return Color.gray.opacity(0.4)
+    case 1...3: return Color.green.opacity(0.6)
+    case 4...6: return Color.green.opacity(0.9)
     default: return Color.green
     }
   }
@@ -100,14 +112,39 @@ struct ContributionGraphView: View {
   }
 
 }
+//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
+func refreshWidgetData() {
+    let fetcher = GitHubDataFetcher()
+    fetcher.fetchGitHubData(
+      from: Calendar.current.date(byAdding: .month, value: -4, to: Date()) ?? Date(), to: Date(), accessToken: "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"
+    ) { result in
+      switch result {
+      case .success(let response):
+        let contributionDays = response.data.viewer.contributionsCollection.contributionCalendar.weeks
+          .flatMap { $0.contributionDays }
+        if let encodedData = try? JSONEncoder().encode(contributionDays) {
+          let sharedDefaults = UserDefaults(suiteName: "group.com.bryandebourbon.contributions")
+          sharedDefaults?.set(encodedData, forKey: "githubContributions")
+          
+          // Forcing a synchronization (not typically recommended)
+          sharedDefaults?.synchronize()
+
+          // Request widget to update
+          WidgetCenter.shared.reloadAllTimelines()
+        }
+
+      case .failure(let error):
+        print("Error fetching data: \(error)")
+      }
+    }
+  }
+
+
 
 #if DEBUG
   struct ContributionGraphView_Previews: PreviewProvider {
     static var previews: some View {
-      ContributionGraphView(contributions: [
-        ContributionDay(date: "2023-11-13", contributionCount: 3),
-        ContributionDay(date: "2023-07-20", contributionCount: 3)
-      ])
+      ContributionGraphView()
       .previewLayout(.fixed(width: 200, height: 110))
     }
   }
