@@ -5,81 +5,110 @@
 //  Created by Bryan de Bourbon on 11/12/23.
 //
 
-import WidgetKit
 import SwiftUI
+import WidgetKit
 
 struct Provider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent())
+        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent(), contributions: sampleContributions())
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: configuration)
-    }
-    
-    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
-            entries.append(entry)
-        }
-
-        return Timeline(entries: entries, policy: .atEnd)
+        SimpleEntry(date: Date(), configuration: configuration, contributions: sampleContributions())
     }
 
-    func recommendations() -> [AppIntentRecommendation<ConfigurationAppIntent>] {
-        // Create an array with all the preconfigured widgets to show.
-        [AppIntentRecommendation(intent: ConfigurationAppIntent(), description: "Example Widget")]
+
+
+  func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<
+    SimpleEntry
+  > {
+    var entries: [SimpleEntry] = []
+
+    // Fetch updated data from shared UserDefaults
+    if let sharedDefaults = UserDefaults(suiteName: "group.com.bryandebourbon"),
+      let encodedData = sharedDefaults.data(forKey: "githubContributions"),
+      let contributionDays = try? JSONDecoder().decode([ContributionDay].self, from: encodedData)
+    {
+
+      // Create a single entry with the latest data
+      let entry = SimpleEntry(
+        date: Date(), configuration: configuration, contributions: contributionDays)
+      entries.append(entry)
+    } else {
+      // Handle the case where there is no data or an error in fetching data
+      // This can be an empty view or some placeholder
+      let entry = SimpleEntry(date: Date(), configuration: configuration, contributions: [])
+      entries.append(entry)
     }
+
+    // Since your data might not change frequently, using a policy like .atEnd is suitable.
+    // This will refresh the widget at the end of the timeline which is defined by the single entry.
+    return Timeline(entries: entries, policy: .atEnd)
+  }
+
+  func recommendations() -> [AppIntentRecommendation<ConfigurationAppIntent>] {
+    // Create an array with all the preconfigured widgets to show.
+    [AppIntentRecommendation(intent: ConfigurationAppIntent(), description: "Example Widget")]
+  }
+}
+
+private func sampleContributions() -> [ContributionDay] {
+    // Sample data
+    return [
+        ContributionDay(date: "2023-11-01", contributionCount: 3),
+        ContributionDay(date: "2023-11-02", contributionCount: 1),
+        ContributionDay(date: "2023-11-03", contributionCount: 3),
+        // Add more samples as needed
+    ]
 }
 
 struct SimpleEntry: TimelineEntry {
-    let date: Date
-    let configuration: ConfigurationAppIntent
+  let date: Date
+  let configuration: ConfigurationAppIntent
+  let contributions: [ContributionDay]
 }
 
-struct contributionsWidgetEntryView : View {
-    var entry: Provider.Entry
-    
-    var body: some View {
-        VStack {
-            ContributionGraphView()
-        }
+
+struct contributionsWidgetEntryView: View {
+  var entry: Provider.Entry
+
+  var body: some View {
+    VStack {
+      ContributionGraphView(contributions: entry.contributions)
     }
+  }
 }
+
 @main
 struct contributionsWidget: Widget {
-    let kind: String = "contributionsWidget"
+  let kind: String = "contributionsWidget"
 
-    var body: some WidgetConfiguration {
-        AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
-            contributionsWidgetEntryView(entry: entry)
-                .containerBackground(.fill.tertiary, for: .widget)
-        }
+  var body: some WidgetConfiguration {
+    AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) {
+      entry in
+      contributionsWidgetEntryView(entry: entry)
+        .containerBackground(.fill.tertiary, for: .widget)
     }
+  }
 }
 
 extension ConfigurationAppIntent {
-    fileprivate static var smiley: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "😀"
-        return intent
-    }
-    
-    fileprivate static var starEyes: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "🤩"
-        return intent
-    }
+  fileprivate static var smiley: ConfigurationAppIntent {
+    let intent = ConfigurationAppIntent()
+    intent.favoriteEmoji = "😀"
+    return intent
+  }
+
+  fileprivate static var starEyes: ConfigurationAppIntent {
+    let intent = ConfigurationAppIntent()
+    intent.favoriteEmoji = "🤩"
+    return intent
+  }
 }
 
-#Preview(as: .accessoryRectangular) {
-    contributionsWidget()
+#Preview(as: .accessoryRectangular){
+  contributionsWidget()
 } timeline: {
-    SimpleEntry(date: .now, configuration: .smiley)
-    SimpleEntry(date: .now, configuration: .starEyes)
-}    
+  SimpleEntry(date: .now, configuration: .smiley, contributions: sampleContributions())
+  SimpleEntry(date: .now, configuration: .starEyes, contributions: sampleContributions())
+}

@@ -1,13 +1,12 @@
 import SwiftUI
 
 struct ContributionGraphView: View {
+  var contributions: [ContributionDay]
   private let blockSize: CGFloat = 8
-    // Adjust this value as needed for the size of the blocks
-  private let padding: CGFloat = 2 // Padding around each block
-  private let numberOfRows: Int = 7 // One for each day of the week
+  private let padding: CGFloat = 2
+  private let numberOfRows: Int = 7
   private let maxWidth: CGFloat = 200
-    // The approximate width available for a modular large complication
-  
+
   private func colorForContributionCount(_ count: Int) -> Color {
     switch count {
     case 0: return Color.gray.opacity(0.1)
@@ -16,21 +15,48 @@ struct ContributionGraphView: View {
     default: return Color.green
     }
   }
-  
-  // Calculate the number of columns that can fit within maxWidth
+
   private var numberOfColumns: Int {
     let totalPadding = padding * (CGFloat(numberOfRows) + 1)
     let availableWidth = maxWidth - totalPadding
-    let maxColumns = Int(availableWidth / (blockSize + padding))
-    return maxColumns
+    return Int(availableWidth / (blockSize + padding))
   }
-  
-  // Generate sample data based on the number of columns and rows
-  var contributions: [ContributionDay] {
-    (0..<(numberOfRows * numberOfColumns)).map { index in
-      ContributionDay(date: "2023-11-\(String(format: "%02d", index + 1))",
-                      contributionCount: Int.random(in: 0...6))
-    }
+
+  private var contributionMapping: [String: Int] {
+    Dictionary(
+      contributions.map { ($0.date, $0.contributionCount) }, uniquingKeysWith: { first, _ in first }
+    )
+  }
+
+  private var startOfCurrentWeek: Date {
+    let calendar = Calendar.current
+    let today = Date()
+    return calendar.date(
+      from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today))!
+  }
+
+  private var startDate: Date {
+    let calendar = Calendar.current
+    let today = Date()
+    let weekdayOffset = calendar.component(.weekday, from: today) - 1  // Offset for the current day of the week
+    let totalDays = numberOfRows * (numberOfColumns - 1) + weekdayOffset
+    return calendar.date(byAdding: .day, value: -totalDays, to: today)!
+  }
+  private func getDateForIndex(_ index: Int) -> String {
+    let calendar = Calendar.current
+    let startDate = self.startDate
+    guard let date = calendar.date(byAdding: .day, value: index, to: startDate) else { return "" }
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd"
+    return formatter.string(from: date)
+  }
+
+  private func daysInCurrentWeekPassed() -> Int {
+    let calendar = Calendar.current
+    let today = Date()
+    let weekday = calendar.component(.weekday, from: today)
+    // Adjusting according to your week start (Sunday = 1, Monday = 2, etc.)
+    return weekday
   }
 
   var body: some View {
@@ -39,27 +65,50 @@ struct ContributionGraphView: View {
         HStack(spacing: padding) {
           ForEach(0..<numberOfColumns, id: \.self) { columnIndex in
             let index = rowIndex + columnIndex * numberOfRows
-            Rectangle()
-              .fill(colorForContributionCount(contributions[index].contributionCount))
-              .frame(width: blockSize, height: blockSize)
-              .cornerRadius(2)
+            let date = getDateForIndex(index)
+            let contributionCount = contributionMapping[date] ?? 0
+
+            if shouldDisplaySquare(at: columnIndex, rowIndex: rowIndex) {
+              Rectangle()
+                .fill(colorForContributionCount(contributionCount))
+                .frame(width: blockSize, height: blockSize)
+                .cornerRadius(2)
+            }
           }
         }
       }
     }
     .padding(.all, padding)
-    // The frame size dynamically adjusts to the number of columns
-    .frame(width: CGFloat(numberOfColumns) * (blockSize + padding) + padding,
-           height: CGFloat(numberOfRows) * (blockSize + padding) + padding)
+    .frame(
+      width: CGFloat(numberOfColumns) * (blockSize + padding) + padding,
+      height: CGFloat(numberOfRows) * (blockSize + padding) + padding)
   }
+
+  private func shouldDisplaySquare(at columnIndex: Int, rowIndex: Int) -> Bool {
+    if columnIndex == numberOfColumns - 1 {
+      // For the rightmost column, check if the rowIndex is within the days passed
+      return rowIndex < daysInCurrentWeekPassed()
+    }
+    return dateIsInPast(getDateForIndex(rowIndex + columnIndex * numberOfRows))
+  }
+
+  private func dateIsInPast(_ dateString: String) -> Bool {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd"
+    guard let date = formatter.date(from: dateString) else { return false }
+    return date <= Date()
+  }
+
 }
 
 #if DEBUG
-struct ContributionGraphView_Previews: PreviewProvider {
-  static var previews: some View {
-    ContributionGraphView()
-      .previewLayout(.fixed(width: 155, height: 110)) // Adjust the preview layout to simulate the modular large size
+  struct ContributionGraphView_Previews: PreviewProvider {
+    static var previews: some View {
+      ContributionGraphView(contributions: [
+        ContributionDay(date: "2023-11-13", contributionCount: 3),
+        ContributionDay(date: "2023-07-20", contributionCount: 3)
+      ])
+      .previewLayout(.fixed(width: 200, height: 110))
+    }
   }
-}
 #endif
-
